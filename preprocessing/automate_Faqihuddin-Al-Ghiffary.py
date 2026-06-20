@@ -59,7 +59,7 @@ def preprocess_image(TRAIN_DIR, VAL_DIR):
         )
 
         # Buat direktori output
-        output_base_dir = 'coffeebeans_preprocessing'
+        output_base_dir = 'preprocessing/coffeebeans_preprocessing'
         os.makedirs(output_base_dir, exist_ok=True)
 
         # Fungsi untuk mengkonversi generator ke numpy array
