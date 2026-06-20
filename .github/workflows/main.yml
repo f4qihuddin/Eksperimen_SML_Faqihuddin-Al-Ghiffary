@@ -48,6 +48,8 @@ jobs:
       - name: Run preprocessing script
         run: |
           python preprocessing/automate_Faqihuddin-Al-Ghiffary.py
+          ls -la preprocessing/
+          ls -la preprocessing/coffeebeans_preprocessing/ || echo "Folder not found"
       
       # Upload hasil preprocessing sebagai artifact
       - name: Upload preprocessing results
@@ -55,3 +57,12 @@ jobs:
         with:
           name: preprocessing-results
           path: preprocessing/coffeebeans_preprocessing/
+
+      - name: Commit preprocessing results
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add preprocessing/coffeebeans_preprocessing/
+          git commit -m "Add preprocessing results" || echo "No changes"
+          git push
+
