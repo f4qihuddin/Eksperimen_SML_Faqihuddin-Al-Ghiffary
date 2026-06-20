@@ -146,3 +146,5 @@ def preprocess_image(TRAIN_DIR, VAL_DIR):
         print(f"Error saat memuat generator: {e}\nPastikan data augmentasi sudah tersusun dalam folder kategori (misal: train_augmented/cats/)")
 
     return train_generator, validation_generator, test_generator
+
+preprocess_image('coffeebeans_raw/train', 'coffeebeans_raw/test')
