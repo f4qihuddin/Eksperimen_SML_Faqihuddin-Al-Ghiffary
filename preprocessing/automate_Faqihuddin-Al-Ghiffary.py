@@ -2,7 +2,6 @@ import os
 import shutil
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
-from PIL import Image
 
 def preprocess_image(TRAIN_DIR, VAL_DIR):
     checkpoint_dir_train = os.path.join(TRAIN_DIR, '.ipynb_checkpoints')
@@ -59,19 +58,44 @@ def preprocess_image(TRAIN_DIR, VAL_DIR):
             shuffle=False
         )
 
-        # Define output directories for the preprocessed images
+        # Buat direktori output
         output_base_dir = 'coffeebeans_preprocessing'
-        output_train_dir = os.path.join(output_base_dir, train_generator)
-        output_validation_dir = os.path.join(output_base_dir, validation_generator)
-        output_test_dir = os.path.join(output_base_dir, test_generator)
+        os.makedirs(output_base_dir, exist_ok=True)
 
-        os.makedirs(output_train_dir, exist_ok=True)
-        os.makedirs(output_validation_dir, exist_ok=True)
-        os.makedirs(output_test_dir, exist_ok=True)
+        # Fungsi untuk mengkonversi generator ke numpy array
+        def generator_to_numpy(generator):
+            X, y = [], []
+            for images, labels in generator:
+                X.append(images)
+                y.append(labels)
+                if len(X) >= len(generator):
+                    break
+            return np.concatenate(X), np.concatenate(y)
+
+        # Konversi train generator
+        print("Mengkonversi train generator...")
+        X_train, y_train = generator_to_numpy(train_generator)
+        np.save(os.path.join(output_base_dir, 'X_train.npy'), X_train)
+        np.save(os.path.join(output_base_dir, 'y_train.npy'), y_train)
+        print(f"Train: {X_train.shape}, {y_train.shape}")
+
+        # Konversi validation generator
+        print("Mengkonversi validation generator...")
+        X_val, y_val = generator_to_numpy(validation_generator)
+        np.save(os.path.join(output_base_dir, 'X_val.npy'), X_val)
+        np.save(os.path.join(output_base_dir, 'y_val.npy'), y_val)
+        print(f"Validation: {X_val.shape}, {y_val.shape}")
+
+        # Konversi test generator
+        print("Mengkonversi test generator...")
+        X_test, y_test = generator_to_numpy(test_generator)
+        np.save(os.path.join(output_base_dir, 'X_test.npy'), X_test)
+        np.save(os.path.join(output_base_dir, 'y_test.npy'), y_test)
+        print(f"Test: {X_test.shape}, {y_test.shape}")
+
+        print(f"\nSemua data tersimpan di folder: {output_base_dir}")
 
     except Exception as e:
         print(f"Error saat memuat generator: {e}\nPastikan data augmentasi sudah tersusun dalam folder kategori (misal: train_augmented/cats/)")
-
-    return train_generator, validation_generator, test_generator
-
+        
 preprocess_image('coffeebeans_raw/train', 'coffeebeans_raw/test')
