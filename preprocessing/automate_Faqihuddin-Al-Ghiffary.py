@@ -58,13 +58,8 @@ def preprocess_image(TRAIN_DIR, VAL_DIR):
             shuffle=False
         )
 
-        # Dapatkan direktori tempat script dijalankan
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-
         # Buat path untuk folder preprocessing
-        output_base_dir = os.path.join(script_dir, 'coffeebeans_preprocessing')
-        os.makedirs(output_base_dir, exist_ok=True)
-
+        output_base_dir = os.makedirs('coffeebeans_preprocessing', exist_ok=True)
         # Fungsi untuk mengkonversi generator ke numpy array
         def generator_to_numpy(generator):
             X, y = [], []
