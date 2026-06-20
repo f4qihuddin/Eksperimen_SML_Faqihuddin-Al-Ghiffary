@@ -51,7 +51,7 @@ jobs:
       
       # Upload hasil preprocessing sebagai artifact
       - name: Upload preprocessing results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: preprocessing-results
           path: preprocessing/coffeebeans_preprocessing/
