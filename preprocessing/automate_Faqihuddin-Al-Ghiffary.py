@@ -57,9 +57,9 @@ def preprocess_image(TRAIN_DIR, VAL_DIR):
             class_mode='categorical',
             shuffle=False
         )
-
-        # Buat direktori output
-        output_base_dir = 'coffeebeans_preprocessing'
+        
+        # Path absolut
+        output_base_dir = r'C:\Users\F4QIH\OneDrive\Documents\Perkuliahan\Kursus Online\AI Engineer Learning Path\Membangun Sistem Machine Learning\Eksperimen_SML_Faqihuddin-Al-Ghiffary\preprocessing\coffeebeans_preprocessing'
         os.makedirs(output_base_dir, exist_ok=True)
 
         # Fungsi untuk mengkonversi generator ke numpy array
@@ -77,25 +77,25 @@ def preprocess_image(TRAIN_DIR, VAL_DIR):
         X_train, y_train = generator_to_numpy(train_generator)
         np.save(os.path.join(output_base_dir, 'X_train.npy'), X_train)
         np.save(os.path.join(output_base_dir, 'y_train.npy'), y_train)
-        print(f"Train: {X_train.shape}, {y_train.shape}")
+        print(f"Train saved: {X_train.shape}, {y_train.shape}")
 
         # Konversi validation generator
         print("Mengkonversi validation generator...")
         X_val, y_val = generator_to_numpy(validation_generator)
         np.save(os.path.join(output_base_dir, 'X_val.npy'), X_val)
         np.save(os.path.join(output_base_dir, 'y_val.npy'), y_val)
-        print(f"Validation: {X_val.shape}, {y_val.shape}")
+        print(f"Validation saved: {X_val.shape}, {y_val.shape}")
 
         # Konversi test generator
         print("Mengkonversi test generator...")
         X_test, y_test = generator_to_numpy(test_generator)
         np.save(os.path.join(output_base_dir, 'X_test.npy'), X_test)
         np.save(os.path.join(output_base_dir, 'y_test.npy'), y_test)
-        print(f"Test: {X_test.shape}, {y_test.shape}")
+        print(f"Test saved: {X_test.shape}, {y_test.shape}")
 
-        print(f"\nSemua data tersimpan di folder: {output_base_dir}")
+        print(f"\nSemua file tersimpan di: {output_base_dir}")
 
     except Exception as e:
         print(f"Error saat memuat generator: {e}\nPastikan data augmentasi sudah tersusun dalam folder kategori (misal: train_augmented/cats/)")
-        
+
 preprocess_image('coffeebeans_raw/train', 'coffeebeans_raw/test')
